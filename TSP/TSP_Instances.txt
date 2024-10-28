@@ -1,0 +1,1 @@
+The TSP instances considered are all all instances from the following five subclasses: "CLKeasy", "CLKhard", "LKCCeasy", "LKCChard", "random"

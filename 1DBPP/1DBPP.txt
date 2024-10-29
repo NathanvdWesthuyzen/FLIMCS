@@ -1,0 +1,1 @@
+This folder encapsulates the neccesary information for the 1-dimensional bin packing problem (1DBPP).

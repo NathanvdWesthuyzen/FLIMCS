@@ -101,13 +101,15 @@ for (INSTANCE in INSTANCES){
   st <- Sys.time()
   #############IMPORT INSTANCE#############
   inst <- import_instance(INSTANCE, base_dir)
-  capacity <- inst[[1]]
-  weights <- inst[[2]]
-  n <- inst[[3]]
+  #extract problem variables
+  var_1 <- inst[[1]]
+  var_2 <- inst[[2]]
+  ...
+  var_n <- inst[[n]]
   
   #############PROBLEM PARAMETER LIST########
   #defined problem parameters in a list
-  problem_parameters <- list(capacity, weights, n, INSTANCE)
+  problem_parameters <- list(var_1, var_2, ..., var_n)
   #export all instance info to // nodes
   clusterExport(cl, "problem_parameters", envir = .GlobalEnv)
   print("Exported...")

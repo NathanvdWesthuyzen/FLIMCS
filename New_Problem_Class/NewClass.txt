@@ -1,0 +1,1 @@
+This folder encapsulates the neccesary information for introducing a new BPP class to the FLIMCS framework.

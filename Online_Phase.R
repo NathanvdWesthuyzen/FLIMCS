@@ -75,6 +75,10 @@ INSTANCES_ALL <- INSTANCES_ALL[-which(INSTANCES_ALL %in% veri_insts_unlisted)]
 source(paste(base_dir, "ML_Functions/Import_Verification_Data.R", sep="/"))
 source(paste(base_dir, "ML_Functions/Nearest_Cluster_ID.R", sep="/"))
 source(paste(base_dir, "ML_Functions/Cluster_Based_Input_Prep.R", sep="/"))
+GA_veri_data <- import_veri_data(base_dir, INSTANCES_ALL, "GA", veri_insts_unlisted, 
+                                 INSTANCES_TSP, INSTANCES_KP, INSTANCES_GCP, INSTANCES_BPP)
+SA_veri_data <- import_veri_data(base_dir, INSTANCES_ALL, "SA", veri_insts_unlisted, 
+                                 INSTANCES_TSP, INSTANCES_KP, INSTANCES_GCP, INSTANCES_BPP)
 
 #######IMPORT CLUSTERING INFORMATION#######
 #import selected cluster labels
@@ -201,12 +205,9 @@ if (file.exists(paste(Models_dir, "/GA_model_", target_variable, "_", k_size, "_
 performance_GA <- verify_ml_model(GA_veri_data, verification_instance, GA_veri_model, target_variable)
 performance_SA <- verify_ml_model(SA_veri_data, verification_instance, SA_veri_model, target_variable)
 
-#1.3 SAVE MAE RESULTS
-cluster_MAE_results_GA <- append(cluster_MAE_results_GA, list(performance_GA[[1]]))
-cluster_MAE_results_SA <- append(cluster_MAE_results_SA, list(performance_SA[[1]]))
-
 #2. EXTRACT TRUE PERFORMANCE PERSPECTIVE FROM GA AND SA
-results_list <- assess_true_verification(performance_GA, performance_SA, GA_veri_data, SA_veri_data, target_variable)
+results_list <- assess_true_verification(performance_GA, performance_SA, GA_veri_data, SA_veri_data, 
+                                         target_variable, verification_instance)
 
 #print cluster done...
 print(sprintf("Evaluation completed...Cluster %d", cluster_no))

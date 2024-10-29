@@ -104,16 +104,6 @@ source(paste(base_dir, "ML_Functions/Remove_Useless.R", sep="/"))
 print(sprintf("Evaluation initiated...Cluster %d", cluster_no))
 print(sprintf("Cluster size: %d", clust_sum[cluster_no]))
 
-#######IMPORT CLUSTER-BASED INPUT DATA#######
-cluster_training_data_GA <- prep_cl_input_data(base_dir, INSTANCES_ALL, labels, cluster_no, "GA")
-cluster_training_data_SA <- prep_cl_input_data(base_dir, INSTANCES_ALL, labels, cluster_no, "SA")
-print("Cluster-based Databases Prepped...")
-
-#remove useless features
-cluster_training_data_GA <- remove_useless_f(cluster_training_data_GA)
-cluster_training_data_SA <- remove_useless_f(cluster_training_data_SA)
-print("USeless features removed...")
-
 ############5-FOLD TRAINING################
 #i) import model if already trained, else conduct training
 if (file.exists(paste(Models_dir, "/GA_model_", target_variable, "_", k_size, "_", cluster_no, ".rds", sep=""))){
@@ -122,6 +112,16 @@ if (file.exists(paste(Models_dir, "/GA_model_", target_variable, "_", k_size, "_
   SA_veri_model <- readRDS(file=paste(Models_dir, "/GA_model_", target_variable, "_", k_size, "_", cluster_no, ".rds", sep=""))
   print(sprintf("Models imported for Cluster %d", cluster_no))
 }else{
+  #######IMPORT CLUSTER-BASED INPUT DATA#######
+  cluster_training_data_GA <- prep_cl_input_data(base_dir, INSTANCES_ALL, labels, cluster_no, "GA")
+  cluster_training_data_SA <- prep_cl_input_data(base_dir, INSTANCES_ALL, labels, cluster_no, "SA")
+  print("Cluster-based Databases Prepped...")
+  
+  #remove useless features
+  cluster_training_data_GA <- remove_useless_f(cluster_training_data_GA)
+  cluster_training_data_SA <- remove_useless_f(cluster_training_data_SA)
+  print("Useless features removed...")
+  
   #save results for training fold
   mae_fold_ga <- list()
   mae_fold_sa <- list()
@@ -199,6 +199,8 @@ if (file.exists(paste(Models_dir, "/GA_model_", target_variable, "_", k_size, "_
   #1.1.1 save trained models
   saveRDS(GA_veri_model, file=paste(Models_dir, "/GA_model_", target_variable, "_", k_size, "_", cluster_no, ".rds", sep=""))
   saveRDS(SA_veri_model, file=paste(Models_dir, "/SA_model_", target_variable, "_", k_size, "_", cluster_no, ".rds", sep=""))
+  
+  print(sprintf("Models trained and saved for Cluster %d", cluster_no))
 }
 
 #1.2 EVALUATE TRAINED MODELS ON VERIFICATION INSTANCES 

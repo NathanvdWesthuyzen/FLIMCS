@@ -43,7 +43,7 @@ print(sprintf("Cluster algorithm: %s...Size: %d", cluster_alg, k_size))
 veri_insts <- readRDS(paste(base_dir, "ML_Functions/Verification_Insts.rds", sep="/"))
 veri_insts_unlisted <- as.vector(unlist(veri_insts))
 
-#Select which verification instance to consider for testing
+#Select which verification instance to consider for testing - the first is selected for example.
 verification_instance <- veri_insts_unlisted[1]
 
 #metaheuristics
